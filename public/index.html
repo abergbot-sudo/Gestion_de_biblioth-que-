@@ -1,0 +1,163 @@
+<!-- ============================================================ -->
+<!-- index.html — Page principale de l'application                -->
+<!-- Gestion de Bibliothèque - Groupe 4                           -->
+<!-- Cette page contient toute la structure HTML de l'application  -->
+<!-- C'est une SPA (Single Page Application) : une seule page     -->
+<!-- HTML qui affiche différentes sections dynamiquement.          -->
+<!-- ============================================================ -->
+<!DOCTYPE html>
+<!-- Déclaration du type de document HTML5 -->
+<html lang="fr">
+<!-- 'lang="fr"' indique que la page est en français -->
+
+<head>
+    <!-- Section d'en-tête : métadonnées, styles, titre -->
+
+    <!-- Encodage des caractères en UTF-8 pour supporter les accents français -->
+    <meta charset="UTF-8">
+
+    <!-- Rendre la page responsive (adaptée aux mobiles et tablettes) -->
+    <!-- 'width=device-width' : la largeur s'adapte à l'écran -->
+    <!-- 'initial-scale=1.0' : pas de zoom initial -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
+    <title>📚 Gestion de Bibliothèque - Groupe 4</title>
+
+    <!-- Lien vers notre fichier CSS personnalisé -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Police Google Fonts 'Inter' pour un design moderne et lisible -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icônes Font Awesome pour les boutons et la navigation -->
+    <!-- Font Awesome fournit des milliers d'icônes vectorielles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- Corps de la page : tout le contenu visible -->
+
+    <!-- ============================================================ -->
+    <!-- BARRE DE NAVIGATION LATÉRALE (SIDEBAR)                       -->
+    <!-- ============================================================ -->
+    <!-- La sidebar contient le logo et les liens de navigation       -->
+    <nav class="sidebar" id="sidebar">
+
+        <!-- En-tête de la sidebar avec le logo -->
+        <div class="sidebar-header">
+            <!-- Icône de livre -->
+            <i class="fas fa-book-open logo-icon"></i>
+            <!-- Nom de l'application -->
+            <span class="logo-text">BiblioTech</span>
+        </div>
+
+        <!-- Menu de navigation -->
+        <ul class="nav-menu">
+            <!-- Chaque 'li' est un élément du menu -->
+            <!-- 'data-page' indique quelle section afficher au clic -->
+            <!-- La classe 'active' indique la page actuellement sélectionnée -->
+
+            <!-- Lien vers le tableau de bord (Dashboard) -->
+            <li class="nav-item active" data-page="dashboard">
+                <i class="fas fa-chart-pie"></i>
+                <!-- Texte du lien -->
+                <span>Tableau de bord</span>
+            </li>
+
+            <!-- Lien vers la gestion des livres -->
+            <li class="nav-item" data-page="livres">
+                <i class="fas fa-book"></i>
+                <span>Livres</span>
+            </li>
+
+            <!-- Lien vers la gestion des emprunts -->
+            <li class="nav-item" data-page="emprunts">
+                <i class="fas fa-hand-holding"></i>
+                <span>Emprunts</span>
+            </li>
+
+            <!-- Lien vers la gestion des retours -->
+            <li class="nav-item" data-page="retours">
+                <i class="fas fa-undo-alt"></i>
+                <span>Retours</span>
+            </li>
+
+            <!-- Lien vers la gestion des amendes -->
+            <li class="nav-item" data-page="amendes">
+                <i class="fas fa-coins"></i>
+                <span>Amendes</span>
+            </li>
+        </ul>
+
+        <!-- Pied de la sidebar avec le nom du groupe -->
+        <div class="sidebar-footer">
+            <p>Groupe 4</p>
+            <small>Projet JavaScript</small>
+        </div>
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- CONTENU PRINCIPAL                                            -->
+    <!-- ============================================================ -->
+    <!-- Cette zone contient le contenu de chaque page/section        -->
+    <main class="main-content">
+
+        <!-- Barre supérieure avec titre et bouton menu mobile -->
+        <header class="top-bar">
+            <!-- Bouton hamburger pour ouvrir/fermer la sidebar sur mobile -->
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- Titre de la page actuelle (mis à jour dynamiquement) -->
+            <h1 id="pageTitle">Tableau de bord</h1>
+            <!-- Date du jour affichée en haut à droite -->
+            <div class="date-display">
+                <i class="fas fa-calendar-alt"></i>
+                <span id="currentDate"></span>
+            </div>
+        </header>
+
+        <!-- Zone de contenu dynamique -->
+        <!-- Le contenu de chaque page sera injecté ici via JavaScript -->
+        <div class="content-area" id="contentArea">
+            <!-- Le contenu sera chargé dynamiquement -->
+        </div>
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- MODAL (FENÊTRE POPUP) POUR LES FORMULAIRES                   -->
+    <!-- ============================================================ -->
+    <!-- Cette fenêtre modale s'affiche par-dessus la page            -->
+    <!-- pour ajouter/modifier un livre ou créer un emprunt           -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <!-- Bouton pour fermer la modal (croix en haut à droite) -->
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <!-- Titre de la modal (change selon le contexte) -->
+            <h2 id="modalTitle">Titre</h2>
+            <!-- Le formulaire sera injecté dynamiquement ici -->
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- NOTIFICATION TOAST                                           -->
+    <!-- ============================================================ -->
+    <!-- Petite notification qui apparaît en bas à droite              -->
+    <!-- pour confirmer une action (ajout, suppression, etc.)          -->
+    <div class="toast" id="toast">
+        <i class="toast-icon"></i>
+        <span class="toast-message" id="toastMessage"></span>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS JAVASCRIPT                                           -->
+    <!-- ============================================================ -->
+    <!-- Fichier JavaScript principal qui contient toute la logique   -->
+    <script src="js/app.js"></script>
+</body>
+
+</html>

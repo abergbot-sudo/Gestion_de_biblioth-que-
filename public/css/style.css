@@ -1,0 +1,939 @@
+/* ============================================================ */
+/* style.css — Feuille de style principale de l'application      */
+/* Gestion de Bibliothèque - Groupe 4                            */
+/* Ce fichier contient tous les styles CSS pour le design        */
+/* moderne et responsive de l'application.                       */
+/* ============================================================ */
+
+/* ============================================================ */
+/* VARIABLES CSS (Custom Properties)                             */
+/* Les variables permettent de définir des couleurs et valeurs   */
+/* réutilisables dans tout le fichier CSS.                       */
+/* Pour changer le thème, il suffit de modifier ces variables.   */
+/* ============================================================ */
+:root {
+    /* --- Couleurs principales --- */
+    --primary: #6C63FF;        /* Violet principal (boutons, liens actifs) */
+    --primary-dark: #5A52D5;   /* Violet foncé (hover/survol des boutons) */
+    --primary-light: #E8E6FF;  /* Violet très clair (arrière-plans légers) */
+
+    /* --- Couleurs secondaires --- */
+    --secondary: #FF6584;      /* Rose/coral (accents, badges) */
+    --success: #00C853;        /* Vert (succès, disponible) */
+    --warning: #FFB300;        /* Orange/ambre (avertissement, en retard) */
+    --danger: #FF1744;         /* Rouge (erreur, suppression) */
+    --info: #00B0FF;           /* Bleu clair (information) */
+
+    /* --- Couleurs neutres --- */
+    --dark: #1A1A2E;           /* Bleu très foncé (texte principal) */
+    --gray-800: #2D2D44;      /* Gris foncé (texte secondaire foncé) */
+    --gray-600: #6B7280;      /* Gris moyen (texte secondaire) */
+    --gray-400: #9CA3AF;      /* Gris clair (placeholders) */
+    --gray-200: #E5E7EB;      /* Gris très clair (bordures) */
+    --gray-100: #F3F4F6;      /* Gris quasi-blanc (arrière-plans) */
+    --white: #FFFFFF;          /* Blanc pur */
+
+    /* --- Ombres (box-shadow) --- */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);    /* Ombre légère */
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);    /* Ombre moyenne */
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);  /* Ombre forte */
+
+    /* --- Arrondis (border-radius) --- */
+    --radius-sm: 8px;          /* Arrondi petit (boutons) */
+    --radius-md: 12px;         /* Arrondi moyen (cartes) */
+    --radius-lg: 16px;         /* Arrondi grand (modals) */
+    --radius-full: 50%;        /* Cercle parfait (avatars, badges) */
+
+    /* --- Dimensions de la sidebar --- */
+    --sidebar-width: 260px;    /* Largeur de la barre latérale */
+
+    /* --- Transitions (animations) --- */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animation fluide */
+}
+
+/* ============================================================ */
+/* RESET & BASE                                                   */
+/* Réinitialiser les styles par défaut du navigateur              */
+/* ============================================================ */
+
+/* Appliquer 'box-sizing: border-box' à tous les éléments */
+/* Cela signifie que le padding et la bordure sont inclus         */
+/* dans la largeur/hauteur totale de l'élément                    */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;  /* Modèle de boîte plus intuitif */
+    margin: 0;               /* Supprimer les marges par défaut */
+    padding: 0;              /* Supprimer les paddings par défaut */
+}
+
+/* Styles de base pour le corps de la page */
+body {
+    font-family: 'Inter', sans-serif;  /* Police moderne et lisible */
+    background-color: #F0F2F5;         /* Fond gris clair */
+    color: var(--dark);                /* Couleur du texte par défaut */
+    display: flex;                     /* Disposition en flexbox */
+    min-height: 100vh;                 /* Hauteur minimum = 100% de l'écran */
+    overflow-x: hidden;               /* Pas de défilement horizontal */
+}
+
+/* ============================================================ */
+/* SIDEBAR (Barre de navigation latérale)                        */
+/* ============================================================ */
+.sidebar {
+    width: var(--sidebar-width);    /* Largeur fixe définie dans les variables */
+    background: linear-gradient(180deg, #1A1A2E 0%, #16213E 100%); /* Dégradé sombre */
+    color: var(--white);            /* Texte en blanc */
+    display: flex;                  /* Flexbox pour organiser le contenu */
+    flex-direction: column;         /* Éléments empilés verticalement */
+    position: fixed;                /* Fixée à gauche de l'écran */
+    top: 0;                         /* Collée en haut */
+    left: 0;                        /* Collée à gauche */
+    bottom: 0;                      /* Collée en bas = pleine hauteur */
+    z-index: 1000;                  /* Au-dessus de tout le contenu */
+    transition: var(--transition);  /* Animation fluide pour le responsive */
+    overflow-y: auto;               /* Défilement si le menu est trop long */
+}
+
+/* En-tête de la sidebar (logo + nom) */
+.sidebar-header {
+    padding: 24px 20px;             /* Espacement intérieur */
+    display: flex;                  /* Flexbox pour aligner horizontalement */
+    align-items: center;            /* Centrer verticalement */
+    gap: 12px;                      /* Espace entre l'icône et le texte */
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* Ligne séparatrice fine */
+}
+
+/* Icône du logo */
+.logo-icon {
+    font-size: 28px;               /* Grande taille pour l'icône */
+    color: var(--primary);          /* Couleur violet */
+}
+
+/* Texte du logo */
+.logo-text {
+    font-size: 22px;               /* Taille du texte du logo */
+    font-weight: 700;              /* Gras */
+    letter-spacing: -0.5px;        /* Légère réduction de l'espacement */
+}
+
+/* Menu de navigation (liste non ordonnée) */
+.nav-menu {
+    list-style: none;              /* Supprimer les puces de la liste */
+    padding: 16px 12px;            /* Espacement intérieur */
+    flex: 1;                       /* Prend tout l'espace disponible */
+}
+
+/* Chaque élément du menu */
+.nav-item {
+    display: flex;                 /* Flexbox pour aligner icône + texte */
+    align-items: center;           /* Centrer verticalement */
+    gap: 12px;                     /* Espace entre icône et texte */
+    padding: 14px 16px;            /* Espacement intérieur */
+    border-radius: var(--radius-sm); /* Coins arrondis */
+    cursor: pointer;               /* Curseur en forme de main */
+    transition: var(--transition); /* Animation au survol */
+    margin-bottom: 4px;            /* Espace entre les éléments */
+    font-size: 15px;               /* Taille du texte */
+    font-weight: 500;              /* Demi-gras */
+    color: rgba(255,255,255,0.7);  /* Texte blanc semi-transparent */
+}
+
+/* Style au survol d'un élément du menu */
+.nav-item:hover {
+    background: rgba(255,255,255,0.1);  /* Fond blanc transparent */
+    color: var(--white);                /* Texte blanc opaque */
+    transform: translateX(4px);         /* Léger décalage vers la droite */
+}
+
+/* Style de l'élément actif (page sélectionnée) */
+.nav-item.active {
+    background: var(--primary);         /* Fond violet */
+    color: var(--white);                /* Texte blanc */
+    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.4); /* Ombre violette */
+}
+
+/* Pied de la sidebar */
+.sidebar-footer {
+    padding: 20px;                 /* Espacement intérieur */
+    border-top: 1px solid rgba(255,255,255,0.1); /* Ligne séparatrice */
+    text-align: center;            /* Texte centré */
+    font-size: 13px;               /* Petite taille */
+    color: rgba(255,255,255,0.5);  /* Texte blanc semi-transparent */
+}
+
+/* ============================================================ */
+/* CONTENU PRINCIPAL                                              */
+/* ============================================================ */
+.main-content {
+    flex: 1;                           /* Prend tout l'espace restant */
+    margin-left: var(--sidebar-width); /* Décalé à droite de la sidebar */
+    min-height: 100vh;                 /* Hauteur minimum = plein écran */
+    display: flex;                     /* Flexbox vertical */
+    flex-direction: column;            /* Empiler header + contenu */
+}
+
+/* Barre supérieure (en-tête du contenu) */
+.top-bar {
+    background: var(--white);          /* Fond blanc */
+    padding: 16px 32px;               /* Espacement intérieur */
+    display: flex;                     /* Flexbox horizontal */
+    align-items: center;               /* Centrer verticalement */
+    justify-content: space-between;    /* Espace entre les éléments */
+    box-shadow: var(--shadow-sm);      /* Ombre légère */
+    position: sticky;                  /* Fixée en haut au défilement */
+    top: 0;                            /* Collée en haut */
+    z-index: 100;                      /* Au-dessus du contenu */
+}
+
+/* Titre de la page dans la barre supérieure */
+.top-bar h1 {
+    font-size: 24px;                   /* Taille du titre */
+    font-weight: 700;                  /* Gras */
+    color: var(--dark);                /* Couleur foncée */
+}
+
+/* Bouton hamburger (caché sur desktop, visible sur mobile) */
+.menu-toggle {
+    display: none;                     /* Caché par défaut (desktop) */
+    background: none;                  /* Pas de fond */
+    border: none;                      /* Pas de bordure */
+    font-size: 24px;                   /* Grande taille */
+    color: var(--dark);                /* Couleur foncée */
+    cursor: pointer;                   /* Curseur main */
+}
+
+/* Affichage de la date */
+.date-display {
+    display: flex;                     /* Flexbox horizontal */
+    align-items: center;               /* Centrer verticalement */
+    gap: 8px;                          /* Espace entre icône et texte */
+    color: var(--gray-600);            /* Gris */
+    font-size: 14px;                   /* Petite taille */
+}
+
+/* Zone de contenu (où les pages sont affichées) */
+.content-area {
+    padding: 32px;                     /* Espacement intérieur */
+    flex: 1;                           /* Prend l'espace disponible */
+}
+
+/* ============================================================ */
+/* CARTES DE STATISTIQUES (DASHBOARD)                            */
+/* ============================================================ */
+
+/* Grille de cartes statistiques */
+.stats-grid {
+    display: grid;                                    /* Grille CSS */
+    grid-template-columns: repeat(4, 1fr);            /* 4 colonnes égales */
+    gap: 24px;                                        /* Espace entre les cartes */
+    margin-bottom: 32px;                              /* Marge en bas */
+}
+
+/* Style d'une carte de statistique */
+.stat-card {
+    background: var(--white);          /* Fond blanc */
+    border-radius: var(--radius-md);   /* Coins arrondis */
+    padding: 24px;                     /* Espacement intérieur */
+    box-shadow: var(--shadow-sm);      /* Ombre légère */
+    transition: var(--transition);     /* Animation au survol */
+    position: relative;                /* Pour le pseudo-élément ::before */
+    overflow: hidden;                  /* Cacher le débordement */
+}
+
+/* Bande colorée en haut de chaque carte */
+.stat-card::before {
+    content: '';                       /* Pseudo-élément vide */
+    position: absolute;                /* Positionnement absolu */
+    top: 0;                            /* En haut de la carte */
+    left: 0;                           /* À gauche */
+    right: 0;                          /* À droite (largeur complète) */
+    height: 4px;                       /* Hauteur de la bande */
+    background: var(--primary);        /* Couleur par défaut (violet) */
+}
+
+/* Effet au survol d'une carte */
+.stat-card:hover {
+    transform: translateY(-4px);       /* Monte légèrement */
+    box-shadow: var(--shadow-md);      /* Ombre plus prononcée */
+}
+
+/* En-tête de la carte (icône + titre) */
+.stat-card-header {
+    display: flex;                     /* Flexbox */
+    align-items: center;               /* Centrer verticalement */
+    justify-content: space-between;    /* Espace entre les éléments */
+    margin-bottom: 16px;              /* Marge en bas */
+}
+
+/* Icône de la carte statistique */
+.stat-icon {
+    width: 48px;                       /* Largeur du cercle */
+    height: 48px;                      /* Hauteur du cercle */
+    border-radius: var(--radius-full); /* Cercle parfait */
+    display: flex;                     /* Flexbox pour centrer l'icône */
+    align-items: center;               /* Centrer verticalement */
+    justify-content: center;           /* Centrer horizontalement */
+    font-size: 20px;                   /* Taille de l'icône */
+}
+
+/* Titre de la carte */
+.stat-card-header span {
+    font-size: 13px;                   /* Petite taille */
+    color: var(--gray-600);            /* Gris */
+    font-weight: 500;                  /* Demi-gras */
+    text-transform: uppercase;         /* Majuscules */
+    letter-spacing: 0.5px;            /* Espacement des lettres */
+}
+
+/* Nombre principal de la carte */
+.stat-number {
+    font-size: 36px;                   /* Grande taille */
+    font-weight: 800;                  /* Extra gras */
+    color: var(--dark);                /* Couleur foncée */
+    line-height: 1;                    /* Hauteur de ligne serrée */
+}
+
+/* Couleurs spécifiques pour chaque type de carte */
+/* Carte livres : bande verte */
+.stat-card.livres::before { background: var(--success); }
+/* Fond vert clair pour l'icône */
+.stat-card.livres .stat-icon { background: #E8F5E9; color: var(--success); }
+
+/* Carte emprunts : bande bleue */
+.stat-card.emprunts::before { background: var(--info); }
+.stat-card.emprunts .stat-icon { background: #E3F2FD; color: var(--info); }
+
+/* Carte retards : bande orange */
+.stat-card.retards::before { background: var(--warning); }
+.stat-card.retards .stat-icon { background: #FFF8E1; color: var(--warning); }
+
+/* Carte amendes : bande rouge/rose */
+.stat-card.amendes::before { background: var(--secondary); }
+.stat-card.amendes .stat-icon { background: #FCE4EC; color: var(--secondary); }
+
+/* ============================================================ */
+/* BARRE D'OUTILS (au-dessus des tableaux)                       */
+/* ============================================================ */
+.toolbar {
+    display: flex;                     /* Flexbox */
+    align-items: center;               /* Centrer verticalement */
+    justify-content: space-between;    /* Espace entre les éléments */
+    margin-bottom: 24px;              /* Marge en bas */
+    flex-wrap: wrap;                   /* Retour à la ligne si nécessaire */
+    gap: 16px;                         /* Espace entre les éléments */
+}
+
+/* Champ de recherche */
+.search-box {
+    display: flex;                     /* Flexbox */
+    align-items: center;               /* Centrer verticalement */
+    background: var(--white);          /* Fond blanc */
+    border: 2px solid var(--gray-200); /* Bordure grise */
+    border-radius: var(--radius-sm);   /* Coins arrondis */
+    padding: 10px 16px;               /* Espacement intérieur */
+    gap: 10px;                         /* Espace entre icône et input */
+    transition: var(--transition);     /* Animation au focus */
+    min-width: 300px;                  /* Largeur minimum */
+}
+
+/* Style au focus de la barre de recherche */
+.search-box:focus-within {
+    border-color: var(--primary);      /* Bordure violette quand actif */
+    box-shadow: 0 0 0 3px var(--primary-light); /* Halo violet */
+}
+
+/* Icône de recherche */
+.search-box i {
+    color: var(--gray-400);            /* Gris clair */
+    font-size: 16px;                   /* Taille de l'icône */
+}
+
+/* Champ de saisie de la recherche */
+.search-box input {
+    border: none;                      /* Pas de bordure */
+    outline: none;                     /* Pas de contour au focus */
+    font-size: 14px;                   /* Taille du texte */
+    font-family: 'Inter', sans-serif;  /* Même police que le reste */
+    flex: 1;                           /* Prend tout l'espace disponible */
+    color: var(--dark);                /* Couleur du texte */
+}
+
+/* Texte de placeholder (texte indicatif grisé) */
+.search-box input::placeholder {
+    color: var(--gray-400);            /* Gris clair pour le placeholder */
+}
+
+/* ============================================================ */
+/* BOUTONS                                                        */
+/* ============================================================ */
+
+/* Bouton principal (violet) */
+.btn {
+    display: inline-flex;              /* Flexbox inline */
+    align-items: center;               /* Centrer verticalement */
+    gap: 8px;                          /* Espace entre icône et texte */
+    padding: 12px 24px;               /* Espacement intérieur */
+    border-radius: var(--radius-sm);   /* Coins arrondis */
+    font-size: 14px;                   /* Taille du texte */
+    font-weight: 600;                  /* Semi-gras */
+    font-family: 'Inter', sans-serif;  /* Police Inter */
+    cursor: pointer;                   /* Curseur main */
+    border: none;                      /* Pas de bordure */
+    transition: var(--transition);     /* Animation au survol */
+}
+
+/* Bouton principal violet */
+.btn-primary {
+    background: var(--primary);        /* Fond violet */
+    color: var(--white);               /* Texte blanc */
+}
+
+/* Survol du bouton principal */
+.btn-primary:hover {
+    background: var(--primary-dark);   /* Violet plus foncé */
+    transform: translateY(-2px);       /* Monte légèrement */
+    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3); /* Ombre violette */
+}
+
+/* Bouton de succès (vert) */
+.btn-success {
+    background: var(--success);        /* Fond vert */
+    color: var(--white);               /* Texte blanc */
+}
+
+/* Survol du bouton succès */
+.btn-success:hover {
+    background: #00A844;              /* Vert plus foncé */
+    transform: translateY(-2px);       /* Monte légèrement */
+}
+
+/* Bouton de danger (rouge) */
+.btn-danger {
+    background: var(--danger);         /* Fond rouge */
+    color: var(--white);               /* Texte blanc */
+}
+
+/* Survol du bouton danger */
+.btn-danger:hover {
+    background: #D50032;              /* Rouge plus foncé */
+    transform: translateY(-2px);       /* Monte légèrement */
+}
+
+/* Bouton d'avertissement (orange) */
+.btn-warning {
+    background: var(--warning);        /* Fond orange */
+    color: var(--dark);                /* Texte foncé */
+}
+
+/* Survol du bouton d'avertissement */
+.btn-warning:hover {
+    background: #FF8F00;              /* Orange plus foncé */
+    transform: translateY(-2px);       /* Monte légèrement */
+}
+
+/* Petit bouton (pour les actions dans les tableaux) */
+.btn-sm {
+    padding: 8px 14px;                /* Espacement réduit */
+    font-size: 12px;                   /* Texte plus petit */
+}
+
+/* ============================================================ */
+/* TABLEAUX                                                       */
+/* ============================================================ */
+
+/* Conteneur du tableau avec coins arrondis et ombre */
+.table-container {
+    background: var(--white);          /* Fond blanc */
+    border-radius: var(--radius-md);   /* Coins arrondis */
+    box-shadow: var(--shadow-sm);      /* Ombre légère */
+    overflow: hidden;                  /* Cacher les coins du tableau */
+}
+
+/* Style du tableau */
+table {
+    width: 100%;                       /* Largeur complète */
+    border-collapse: collapse;         /* Fusionner les bordures */
+}
+
+/* En-tête du tableau */
+thead {
+    background: var(--gray-100);       /* Fond gris clair */
+}
+
+/* Cellules d'en-tête */
+th {
+    padding: 14px 20px;               /* Espacement intérieur */
+    text-align: left;                  /* Alignement à gauche */
+    font-size: 12px;                   /* Petite taille */
+    font-weight: 600;                  /* Semi-gras */
+    color: var(--gray-600);            /* Gris */
+    text-transform: uppercase;         /* Majuscules */
+    letter-spacing: 0.5px;            /* Espacement des lettres */
+}
+
+/* Cellules de données */
+td {
+    padding: 16px 20px;               /* Espacement intérieur */
+    font-size: 14px;                   /* Taille du texte */
+    border-top: 1px solid var(--gray-200); /* Ligne séparatrice */
+    vertical-align: middle;            /* Centrer verticalement */
+}
+
+/* Effet de survol sur les lignes du tableau */
+tbody tr {
+    transition: var(--transition);     /* Animation */
+}
+
+/* Fond gris au survol d'une ligne */
+tbody tr:hover {
+    background: var(--gray-100);       /* Fond gris clair */
+}
+
+/* ============================================================ */
+/* BADGES (étiquettes colorées)                                   */
+/* ============================================================ */
+
+/* Badge générique (petit label coloré) */
+.badge {
+    display: inline-block;             /* Inline mais avec dimensions */
+    padding: 4px 12px;               /* Espacement intérieur */
+    border-radius: 20px;              /* Très arrondi (pilule) */
+    font-size: 12px;                   /* Petite taille */
+    font-weight: 600;                  /* Semi-gras */
+}
+
+/* Badge disponible (vert) */
+.badge-success {
+    background: #E8F5E9;              /* Fond vert clair */
+    color: var(--success);             /* Texte vert */
+}
+
+/* Badge emprunté (orange) */
+.badge-warning {
+    background: #FFF8E1;              /* Fond jaune clair */
+    color: var(--warning);             /* Texte orange */
+}
+
+/* Badge en retard (rouge) */
+.badge-danger {
+    background: #FFEBEE;              /* Fond rouge clair */
+    color: var(--danger);              /* Texte rouge */
+}
+
+/* Badge info (bleu) */
+.badge-info {
+    background: #E3F2FD;              /* Fond bleu clair */
+    color: var(--info);                /* Texte bleu */
+}
+
+/* ============================================================ */
+/* FENÊTRE MODALE (POPUP)                                        */
+/* ============================================================ */
+
+/* Fond sombre semi-transparent derrière la modal */
+.modal-overlay {
+    position: fixed;                   /* Fixé sur tout l'écran */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);   /* Fond noir 50% transparent */
+    display: flex;                     /* Flexbox pour centrer la modal */
+    align-items: center;               /* Centrer verticalement */
+    justify-content: center;           /* Centrer horizontalement */
+    z-index: 2000;                     /* Au-dessus de tout */
+    opacity: 0;                        /* Invisible par défaut */
+    visibility: hidden;                /* Caché par défaut */
+    transition: var(--transition);     /* Animation d'apparition */
+}
+
+/* Quand la modal est active (visible) */
+.modal-overlay.active {
+    opacity: 1;                        /* Visible */
+    visibility: visible;               /* Affiché */
+}
+
+/* La fenêtre modale elle-même */
+.modal {
+    background: var(--white);          /* Fond blanc */
+    border-radius: var(--radius-lg);   /* Grands coins arrondis */
+    padding: 32px;                     /* Espacement intérieur */
+    width: 90%;                        /* 90% de la largeur de l'écran */
+    max-width: 520px;                  /* Maximum 520px */
+    max-height: 90vh;                  /* Maximum 90% de la hauteur */
+    overflow-y: auto;                  /* Défilement si trop de contenu */
+    position: relative;                /* Pour positionner le bouton fermer */
+    transform: scale(0.9);             /* Légèrement réduit (animation) */
+    transition: var(--transition);     /* Animation d'apparition */
+}
+
+/* Animation de la modal quand elle apparaît */
+.modal-overlay.active .modal {
+    transform: scale(1);               /* Taille normale */
+}
+
+/* Bouton de fermeture de la modal (croix) */
+.modal-close {
+    position: absolute;                /* Positionnement absolu */
+    top: 16px;                         /* En haut */
+    right: 16px;                       /* À droite */
+    background: none;                  /* Pas de fond */
+    border: none;                      /* Pas de bordure */
+    font-size: 20px;                   /* Taille de la croix */
+    color: var(--gray-400);            /* Gris clair */
+    cursor: pointer;                   /* Curseur main */
+    transition: var(--transition);     /* Animation */
+}
+
+/* Survol du bouton fermer */
+.modal-close:hover {
+    color: var(--danger);              /* Rouge au survol */
+}
+
+/* Titre de la modal */
+.modal h2 {
+    font-size: 22px;                   /* Grande taille */
+    font-weight: 700;                  /* Gras */
+    margin-bottom: 24px;              /* Marge en bas */
+    color: var(--dark);                /* Couleur foncée */
+}
+
+/* ============================================================ */
+/* FORMULAIRES (champs de saisie dans les modals)                 */
+/* ============================================================ */
+
+/* Groupe de champ (label + input) */
+.form-group {
+    margin-bottom: 20px;              /* Marge en bas */
+}
+
+/* Label (étiquette du champ) */
+.form-group label {
+    display: block;                    /* Prend toute la largeur */
+    font-size: 13px;                   /* Petite taille */
+    font-weight: 600;                  /* Semi-gras */
+    color: var(--gray-800);            /* Gris foncé */
+    margin-bottom: 6px;               /* Marge en bas */
+}
+
+/* Champ de saisie (input) et liste déroulante (select) */
+.form-group input,
+.form-group select {
+    width: 100%;                       /* Largeur complète */
+    padding: 12px 16px;               /* Espacement intérieur */
+    border: 2px solid var(--gray-200); /* Bordure grise */
+    border-radius: var(--radius-sm);   /* Coins arrondis */
+    font-size: 14px;                   /* Taille du texte */
+    font-family: 'Inter', sans-serif;  /* Police Inter */
+    color: var(--dark);                /* Couleur du texte */
+    transition: var(--transition);     /* Animation au focus */
+    background: var(--white);          /* Fond blanc */
+}
+
+/* Style au focus d'un champ */
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;                     /* Pas de contour par défaut */
+    border-color: var(--primary);      /* Bordure violette */
+    box-shadow: 0 0 0 3px var(--primary-light); /* Halo violet */
+}
+
+/* ============================================================ */
+/* NOTIFICATION TOAST                                             */
+/* ============================================================ */
+
+/* Conteneur de la notification toast */
+.toast {
+    position: fixed;                   /* Position fixe sur l'écran */
+    bottom: 32px;                      /* En bas */
+    right: 32px;                       /* À droite */
+    background: var(--dark);           /* Fond sombre */
+    color: var(--white);               /* Texte blanc */
+    padding: 16px 24px;               /* Espacement intérieur */
+    border-radius: var(--radius-sm);   /* Coins arrondis */
+    display: flex;                     /* Flexbox */
+    align-items: center;               /* Centrer verticalement */
+    gap: 12px;                         /* Espace entre icône et texte */
+    box-shadow: var(--shadow-lg);      /* Ombre forte */
+    transform: translateY(100px);      /* Caché en bas (hors écran) */
+    opacity: 0;                        /* Invisible */
+    transition: var(--transition);     /* Animation */
+    z-index: 3000;                     /* Au-dessus de tout */
+    max-width: 400px;                  /* Largeur maximum */
+}
+
+/* Toast visible (affiché) */
+.toast.show {
+    transform: translateY(0);          /* Position normale */
+    opacity: 1;                        /* Visible */
+}
+
+/* Icône de succès dans le toast (vert) */
+.toast.success .toast-icon {
+    color: var(--success);             /* Vert */
+}
+
+/* Icône d'erreur dans le toast (rouge) */
+.toast.error .toast-icon {
+    color: var(--danger);              /* Rouge */
+}
+
+/* ============================================================ */
+/* MESSAGE VIDE (quand il n'y a pas de données)                   */
+/* ============================================================ */
+.empty-state {
+    text-align: center;                /* Texte centré */
+    padding: 60px 20px;               /* Grand espacement */
+    color: var(--gray-400);            /* Gris clair */
+}
+
+/* Icône de l'état vide */
+.empty-state i {
+    font-size: 64px;                   /* Très grande taille */
+    margin-bottom: 16px;              /* Marge en bas */
+    opacity: 0.5;                      /* Semi-transparent */
+}
+
+/* Texte de l'état vide */
+.empty-state p {
+    font-size: 16px;                   /* Taille du texte */
+    font-weight: 500;                  /* Demi-gras */
+}
+
+/* ============================================================ */
+/* GROUPE D'ACTIONS (boutons d'action dans les tableaux)          */
+/* ============================================================ */
+.action-group {
+    display: flex;                     /* Flexbox */
+    gap: 8px;                          /* Espace entre les boutons */
+}
+
+/* ============================================================ */
+/* SECTION ACTIVITÉ RÉCENTE (sur le dashboard)                    */
+/* ============================================================ */
+.recent-section {
+    margin-top: 32px;                  /* Marge en haut */
+}
+
+/* Titre de la section */
+.recent-section h3 {
+    font-size: 18px;                   /* Taille du titre */
+    font-weight: 700;                  /* Gras */
+    margin-bottom: 16px;              /* Marge en bas */
+    color: var(--dark);                /* Couleur foncée */
+}
+
+/* ============================================================ */
+/* ANIMATIONS                                                     */
+/* ============================================================ */
+
+/* Animation de fondu en entrée (éléments qui apparaissent) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;                    /* Commence invisible */
+        transform: translateY(20px);   /* Commence décalé en bas */
+    }
+    to {
+        opacity: 1;                    /* Finit visible */
+        transform: translateY(0);      /* Finit à sa position normale */
+    }
+}
+
+/* Appliquer l'animation aux cartes et tableaux */
+.stat-card,
+.table-container {
+    animation: fadeIn 0.5s ease-out;   /* Animation de 0.5 seconde */
+}
+
+/* Délai d'animation pour chaque carte (effet de cascade) */
+/* La 2ème carte apparaît après la 1ère, etc. */
+.stat-card:nth-child(1) { animation-delay: 0s; }
+.stat-card:nth-child(2) { animation-delay: 0.1s; }
+.stat-card:nth-child(3) { animation-delay: 0.2s; }
+.stat-card:nth-child(4) { animation-delay: 0.3s; }
+
+/* ============================================================ */
+/* RESPONSIVE DESIGN (adaptation aux écrans mobiles/tablettes)    */
+/* ============================================================ */
+
+/* Écrans de moins de 1024px (tablettes) */
+@media (max-width: 1024px) {
+    /* Réduire la grille de stats à 2 colonnes */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Écrans de moins de 768px (mobiles) */
+@media (max-width: 768px) {
+    /* Cacher la sidebar (accessible via le bouton hamburger) */
+    .sidebar {
+        transform: translateX(-100%);  /* Déplacer hors écran à gauche */
+    }
+
+    /* Afficher la sidebar quand elle est active */
+    .sidebar.active {
+        transform: translateX(0);      /* Remettre en position normale */
+    }
+
+    /* Le contenu prend toute la largeur */
+    .main-content {
+        margin-left: 0;               /* Pas de marge à gauche */
+    }
+
+    /* Afficher le bouton hamburger */
+    .menu-toggle {
+        display: block;                /* Visible */
+    }
+
+    /* Grille de stats sur 1 colonne */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Réduire l'espacement du contenu */
+    .content-area {
+        padding: 16px;                 /* Espacement réduit */
+    }
+
+    /* Barre de recherche pleine largeur */
+    .search-box {
+        min-width: auto;               /* Pas de largeur minimum */
+        width: 100%;                   /* Pleine largeur */
+    }
+
+    /* Barre d'outils empilée verticalement */
+    .toolbar {
+        flex-direction: column;        /* Empiler les éléments */
+        align-items: stretch;          /* Étirer sur toute la largeur */
+    }
+
+    /* Rendre le tableau défilable horizontalement */
+    .table-container {
+        overflow-x: auto;              /* Défilement horizontal */
+    }
+}
+
+/* ============================================================ */
+/* STYLES SUPPLÉMENTAIRES POUR LE DÉTAIL DES EMPRUNTS            */
+/* ============================================================ */
+
+/* Carte de détail pour les emprunts/retours */
+.detail-card {
+    background: var(--white);          /* Fond blanc */
+    border-radius: var(--radius-md);   /* Coins arrondis */
+    padding: 20px;                     /* Espacement intérieur */
+    box-shadow: var(--shadow-sm);      /* Ombre légère */
+    margin-bottom: 16px;              /* Marge en bas */
+    border-left: 4px solid var(--primary); /* Bande colorée à gauche */
+}
+
+/* Titre du détail */
+.detail-card h4 {
+    font-size: 16px;                   /* Taille du titre */
+    font-weight: 600;                  /* Semi-gras */
+    color: var(--dark);                /* Couleur foncée */
+    margin-bottom: 8px;               /* Marge en bas */
+}
+
+/* Paragraphe dans la carte de détail */
+.detail-card p {
+    font-size: 14px;                   /* Taille du texte */
+    color: var(--gray-600);            /* Gris */
+    margin-bottom: 4px;               /* Petite marge */
+}
+
+/* Valeur mise en évidence dans le détail */
+.detail-card strong {
+    color: var(--dark);                /* Couleur foncée */
+}
+
+/* ============================================================ */
+/* GRILLE DE LIVRES (vue en grille alternative)                   */
+/* ============================================================ */
+.books-grid {
+    display: grid;                                    /* Grille CSS */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Colonnes auto */
+    gap: 20px;                                        /* Espace entre les cartes */
+}
+
+/* Carte de livre */
+.book-card {
+    background: var(--white);          /* Fond blanc */
+    border-radius: var(--radius-md);   /* Coins arrondis */
+    padding: 24px;                     /* Espacement intérieur */
+    box-shadow: var(--shadow-sm);      /* Ombre légère */
+    transition: var(--transition);     /* Animation */
+    border-top: 4px solid var(--primary); /* Bande violette en haut */
+}
+
+/* Survol d'une carte de livre */
+.book-card:hover {
+    transform: translateY(-4px);       /* Monte légèrement */
+    box-shadow: var(--shadow-md);      /* Ombre plus forte */
+}
+
+/* Titre du livre dans la carte */
+.book-card h3 {
+    font-size: 16px;                   /* Taille du titre */
+    font-weight: 700;                  /* Gras */
+    color: var(--dark);                /* Couleur foncée */
+    margin-bottom: 8px;               /* Marge en bas */
+}
+
+/* Informations du livre (auteur, isbn...) */
+.book-card .book-info {
+    font-size: 13px;                   /* Petite taille */
+    color: var(--gray-600);            /* Gris */
+    margin-bottom: 4px;               /* Petite marge */
+}
+
+/* Pied de la carte de livre (status + actions) */
+.book-card-footer {
+    display: flex;                     /* Flexbox */
+    align-items: center;               /* Centrer verticalement */
+    justify-content: space-between;    /* Espace entre les éléments */
+    margin-top: 16px;                  /* Marge en haut */
+    padding-top: 16px;                /* Espacement en haut */
+    border-top: 1px solid var(--gray-200); /* Ligne séparatrice */
+}
+
+/* ============================================================ */
+/* TABS (onglets) pour changer de vue                             */
+/* ============================================================ */
+.tabs {
+    display: flex;                     /* Flexbox */
+    gap: 4px;                          /* Espace entre les onglets */
+    background: var(--gray-100);       /* Fond gris clair */
+    padding: 4px;                      /* Espacement intérieur */
+    border-radius: var(--radius-sm);   /* Coins arrondis */
+    margin-bottom: 24px;              /* Marge en bas */
+    display: inline-flex;              /* Inline pour ne prendre que l'espace nécessaire */
+}
+
+/* Onglet individuel */
+.tab {
+    padding: 8px 20px;                /* Espacement intérieur */
+    border-radius: 6px;               /* Coins arrondis */
+    font-size: 13px;                   /* Petite taille */
+    font-weight: 500;                  /* Demi-gras */
+    cursor: pointer;                   /* Curseur main */
+    transition: var(--transition);     /* Animation */
+    color: var(--gray-600);            /* Gris */
+    border: none;                      /* Pas de bordure */
+    background: none;                  /* Pas de fond */
+    font-family: 'Inter', sans-serif;  /* Police Inter */
+}
+
+/* Onglet actif (sélectionné) */
+.tab.active {
+    background: var(--white);          /* Fond blanc */
+    color: var(--primary);             /* Texte violet */
+    box-shadow: var(--shadow-sm);      /* Ombre légère */
+}
+
+/* Survol d'un onglet */
+.tab:hover:not(.active) {
+    color: var(--dark);                /* Texte foncé */
+}
